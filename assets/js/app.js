@@ -3,10 +3,8 @@ import { db } from "./firebase.js";
 import {
 
 collection,
-  getDocs,
-  doc,
-  updateDoc,
-  increment
+
+getDocs
 
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
