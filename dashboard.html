@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>لوحة التحكم</title>
+
+<link rel="stylesheet" href="assets/css/style.css">
+
+<style>
+
+body{
+background:#0f172a;
+font-family:Arial;
+margin:0;
+padding:20px;
+color:white;
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+}
+
+.top{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px;
+margin-bottom:20px;
+}
+
+.card{
+background:#1e293b;
+padding:20px;
+border-radius:12px;
+text-align:center;
+}
+
+.form-box{
+background:#1e293b;
+padding:20px;
+border-radius:12px;
+margin-bottom:20px;
+}
+
+input,textarea{
+width:100%;
+padding:12px;
+margin-bottom:10px;
+border:none;
+border-radius:8px;
+background:#334155;
+color:white;
+box-sizing:border-box;
+}
+
+button{
+background:#2563eb;
+color:white;
+border:none;
+padding:12px 20px;
+border-radius:8px;
+cursor:pointer;
+}
+
+table{
+width:100%;
+background:#1e293b;
+border-radius:12px;
+overflow:hidden;
+border-collapse:collapse;
+}
+
+th,td{
+padding:12px;
+border-bottom:1px solid #334155;
+text-align:center;
+}
+
+img{
+width:60px;
+height:60px;
+object-fit:cover;
+border-radius:8px;
+}
+
+.delete{
+background:#dc2626;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>📦 لوحة التحكم</h1>
+
+<div class="top">
+
+<div class="card">
+<h2 id="filesCount">0</h2>
+<p>الملفات</p>
+</div>
+
+<div class="card">
+<h2 id="downloadsCount">0</h2>
+<p>التحميلات</p>
+</div>
+
+<div class="card">
+<h2 id="categoriesCount">0</h2>
+<p>الأقسام</p>
+</div>
+
+</div>
+
+<div class="form-box">
+
+<h2>إضافة ملف جديد</h2>
+
+<input id="title" placeholder="اسم الملف">
+
+<input id="category" placeholder="التصنيف">
+
+<input id="version" placeholder="الإصدار">
+
+<input id="size" placeholder="الحجم">
+
+<input id="image" placeholder="رابط الصورة">
+
+<input id="download" placeholder="رابط التحميل">
+
+<textarea id="description"
+placeholder="الوصف"></textarea>
+
+<button id="saveBtn">
+حفظ الملف
+</button>
+
+</div>
+
+<table>
+
+<thead>
+<tr>
+<th>الصورة</th>
+<th>الاسم</th>
+<th>القسم</th>
+<th>الإصدار</th>
+<th>الحجم</th>
+<th>حذف</th>
+</tr>
+</thead>
+
+<tbody id="filesTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+<script type="module"
+src="assets/js/dashboard.js"></script>
+
+</body>
+</html>
