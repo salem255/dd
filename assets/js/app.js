@@ -17,32 +17,7 @@ const searchInput = document.getElementById("search");
 let allFiles = [];
 
  function driveToDirect(url) {};
-window.downloadFile = async function(id,url){
 
-  try{
-
-    await updateDoc(
-      doc(db,"files",id),
-      {
-        downloads: increment(1)
-      }
-    );
-
-  }catch(error){
-
-    console.error(error);
-
-  }
-
-  window.open(
-    driveToDirect(url),
-    "_blank"
-  );
-
-};
-  
-
-};
   
 if (!url) return "#";
 
