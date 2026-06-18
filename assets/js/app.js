@@ -102,9 +102,9 @@ filesContainer.innerHTML += `
 
       <p><strong>الحجم:</strong> ${file.size || ''}</p>
 
+<p><strong>التحميلات:</strong> ${file.downloads || 0}</p>
 
-
-      <p>${file.description || ''}</p>
+<p>${file.description || ''}</p>
 
 
 
