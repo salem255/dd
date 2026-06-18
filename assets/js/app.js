@@ -1,48 +1,54 @@
 import { db } from "./firebase.js";
 
 import {
+
 collection,
-getDocs,
-doc,
-updateDoc,
-increment
+  getDocs,
+  doc,
+  updateDoc,
+  increment
+
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
 const filesContainer = document.getElementById("filesContainer");
+
 const searchInput = document.getElementById("search");
 
 let allFiles = [];
 
-function driveToDirect(url){
+function driveToDirect(url) {
 
-if(!url) return "#";
+if (!url) return "#";
 
-try{
+try {
 
-```
 const parts = url.split("/d/");
 
-if(parts.length > 1){
+
+
+if (parts.length > 1) {
+
+
 
   const fileId = parts[1].split("/")[0];
 
+
+
   return `https://drive.google.com/uc?export=download&id=${fileId}`;
 
+
+
 }
-```
 
-}catch(error){
+} catch (error) {
 
-```
 console.log(error);
-```
 
 }
 
 return url;
 
 }
-
 window.downloadFile = async function(id,url){
 
 try{
@@ -69,123 +75,166 @@ driveToDirect(url),
 "_blank"
 );
 
-};
+}
 
-function renderFiles(files){
+function renderFiles(files) {
 
 filesContainer.innerHTML = "";
 
-if(files.length === 0){
+if (files.length === 0) {
 
-```
 filesContainer.innerHTML = `
+
   <div style="padding:20px;text-align:center;width:100%;">
+
     لا توجد ملفات
+
   </div>
+
 `;
 
+
+
 return;
-```
 
 }
 
-files.forEach(file=>{
+files.forEach(file => {
 
-```
 filesContainer.innerHTML += `
 
-<div class="card">
 
-  <img src="${file.image || 'https://via.placeholder.com/400x200'}">
 
-  <div class="card-body">
+  <div class="card">
 
-    <h3>${file.title || ''}</h3>
 
-    <p><strong>القسم:</strong> ${file.category || ''}</p>
 
-    <p><strong>الإصدار:</strong> ${file.version || ''}</p>
+    <img src="${file.image || 'https://via.placeholder.com/400x200'}">
 
-    <p><strong>الحجم:</strong> ${file.size || ''}</p>
 
-    <p><strong>التحميلات:</strong> ${file.downloads || 0}</p>
 
-    <p>${file.description || ''}</p>
+    <div class="card-body">
 
-    <button
-      class="download-btn"
-      onclick="downloadFile('${file.id}','${file.download}')">
 
-      تحميل الملف
 
-    </button>
+      <h3>${file.title || ''}</h3>
+
+
+
+      <p><strong>القسم:</strong> ${file.category || ''}</p>
+
+
+
+      <p><strong>الإصدار:</strong> ${file.version || ''}</p>
+
+
+
+      <p><strong>الحجم:</strong> ${file.size || ''}</p>
+<p><strong>التحميلات:</strong> ${file.downloads || 0}</p>
+
+
+
+      <p>${file.description || ''}</p>
+
+
+
+      <button
+class="download-btn"
+onclick="downloadFile('${file.id}','${file.download}')">
+
+تحميل الملف
+
+</button>
+
+
+
+    </div>
+
+
 
   </div>
 
-</div>
+
 
 `;
-```
 
 });
 
 }
 
-async function loadFiles(){
+async function loadFiles() {
 
-try{
+try {
 
-```
 const querySnapshot =
-  await getDocs(collection(db,"files"));
+
+  await getDocs(collection(db, "files"));
+
+
 
 allFiles = [];
 
-querySnapshot.forEach((docItem)=>{
+
+
+querySnapshot.forEach((doc) => {
+
+
 
   allFiles.push({
-    id: docItem.id,
-    ...docItem.data()
+
+    id: doc.id,
+
+    ...doc.data()
+
   });
+
+
 
 });
 
+
+
+console.log("Files:", allFiles);
+
+
+
 renderFiles(allFiles);
-```
 
 }
 
-catch(error){
+catch (error) {
 
-```
 console.error(error);
 
+
+
 filesContainer.innerHTML = `
-  <div style="padding:20px;color:red;">
+
+  <div style="padding:20px;color:red">
+
     خطأ في تحميل الملفات
+
   </div>
+
 `;
-```
 
 }
 
 }
 
-searchInput?.addEventListener("input",()=>{
+searchInput?.addEventListener("input", () => {
 
-const value =
-searchInput.value.toLowerCase();
+const value = searchInput.value.toLowerCase();
 
-const filtered =
-allFiles.filter(file=>
+const filtered = allFiles.filter(file =>
 
-```
-  (file.title || "")
+(file.title || "")
+
   .toLowerCase()
+
   .includes(value)
 
 );
-```
 
 renderFiles(filtered);
 
