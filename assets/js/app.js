@@ -19,6 +19,9 @@ let allFiles = [];
 function driveToDirect(url) {
 window.downloadFile = async function(id,url){
 
+  
+
+};
   try{
 
     await updateDoc(
@@ -37,9 +40,7 @@ window.downloadFile = async function(id,url){
   window.open(
     driveToDirect(url),
     "_blank"
-  );
-
-};
+  ); 
 if (!url) return "#";
 
 try {
