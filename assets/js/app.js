@@ -127,19 +127,20 @@ filesContainer.innerHTML += `
 
       <p><strong>الحجم:</strong> ${file.size || ''}</p>
 
-<p><strong>التحميلات:</strong> ${file.downloads || 0}</p>
+
 
 <p>${file.description || ''}</p>
 
 
 
-     <button
+   <a
 class="download-btn"
-onclick="downloadFile('${file.id}','${file.download}')">
+href="${driveToDirect(file.download)}"
+target="_blank">
 
 تحميل الملف
 
-</button>
+</a>
 
 
     </div>
