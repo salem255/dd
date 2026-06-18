@@ -5,6 +5,7 @@ collection,
 addDoc,
 getDocs,
 deleteDoc,
+updateDoc,
 doc
 }
 from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
@@ -62,7 +63,13 @@ style="border-radius:8px">
 <td>${data.size}</td>
 
 <td>
+<button
+class="btn btn-primary btn-sm"
+onclick="editFile('${item.id}')">
 
+تعديل
+
+</button>
 <button
 class="btn btn-danger btn-sm"
 onclick="deleteFile('${item.id}')">
@@ -88,13 +95,41 @@ categoriesCount.textContent = categories.size;
 }
 
 window.deleteFile = async(id)=>{
+window.editFile = async function(id){
+
+const snapshot = await getDocs(filesCollection);
+
+snapshot.forEach((item)=>{
+
+if(item.id === id){
+
+const data = item.data();
+
+document.getElementById("title").value = data.title || "";
+document.getElementById("category").value = data.category || "";
+document.getElementById("version").value = data.version || "";
+document.getElementById("size").value = data.size || "";
+document.getElementById("image").value = data.image || "";
+document.getElementById("download").value = data.download || "";
+document.getElementById("description").value = data.description || "";
+
+editId = id;
+
+document.getElementById("saveBtn").textContent =
+"تحديث الملف";
+
+}
+
+});
+
+};
 
 if(!confirm("حذف الملف ؟")) return;
 
 await deleteDoc(
 doc(db,"files",id)
 );
-
+let editId = null;
 loadFiles();
 
 };
@@ -132,6 +167,30 @@ return;
 
 }
 
+if(editId){
+
+await updateDoc(
+doc(db,"files",editId),
+{
+title,
+category,
+version,
+size,
+image,
+download,
+description
+}
+);
+
+alert("تم تحديث الملف");
+
+editId = null;
+
+document.getElementById("saveBtn").textContent =
+"حفظ الملف";
+
+}else{
+
 await addDoc(filesCollection,{
 
 title,
@@ -147,6 +206,9 @@ createdAt:Date.now()
 });
 
 alert("تمت إضافة الملف");
+
+}
+
 
 document.getElementById("title").value="";
 document.getElementById("category").value="";
