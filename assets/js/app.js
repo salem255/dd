@@ -3,7 +3,10 @@ import { db } from "./firebase.js";
 import {
 
 collection,
-getDocs
+  getDocs,
+  doc,
+  updateDoc,
+  increment
 
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
@@ -13,12 +16,33 @@ const searchInput = document.getElementById("search");
 
 let allFiles = [];
 
-function driveToDirect(url) {
+function driveToDirect(url) {};
 window.downloadFile = async function(id,url){
 
-  
+  try{
+
+    await updateDoc(
+      doc(db,"files",id),
+      {
+        downloads: increment(1)
+      }
+    );
+
+  }catch(error){
+
+    console.error(error);
+
+  }
+
+  window.open(
+    driveToDirect(url),
+    "_blank"
+  );
 
 };
+  
+
+
   
 if (!url) return "#";
 
@@ -105,6 +129,7 @@ filesContainer.innerHTML += `
 
 
       <p><strong>الحجم:</strong> ${file.size || ''}</p>
+         <p><strong>التحميلات:</strong> ${file.downloads || 0}</p>
 
 
 
@@ -112,14 +137,13 @@ filesContainer.innerHTML += `
 
 
 
-   <a
+  <button
 class="download-btn"
-href="${driveToDirect(file.download)}"
-target="_blank">
+onclick="downloadFile('${file.id}','${file.download}')">
 
 تحميل الملف
 
-</a>
+</button>
 
 
     </div>
