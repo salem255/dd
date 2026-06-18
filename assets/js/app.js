@@ -49,33 +49,6 @@ console.log(error);
 return url;
 
 }
-window.downloadFile = async function(id,url){
-
-try{
-
-```
-await updateDoc(
-  doc(db,"files",id),
-  {
-    downloads: increment(1)
-  }
-);
-```
-
-}catch(error){
-
-```
-console.error(error);
-```
-
-}
-
-window.open(
-driveToDirect(url),
-"_blank"
-);
-
-}
 
 function renderFiles(files) {
 
@@ -130,7 +103,6 @@ filesContainer.innerHTML += `
 
 
       <p><strong>الحجم:</strong> ${file.size || ''}</p>
-<p><strong>التحميلات:</strong> ${file.downloads || 0}</p>
 
 
 
@@ -138,13 +110,21 @@ filesContainer.innerHTML += `
 
 
 
-      <button
-class="download-btn"
-onclick="downloadFile('${file.id}','${file.download}')">
+      <a
 
-تحميل الملف
+        class="download-btn"
 
-</button>
+        href="${driveToDirect(file.download)}"
+
+        target="_blank">
+
+
+
+        تحميل الملف
+
+
+
+      </a>
 
 
 
