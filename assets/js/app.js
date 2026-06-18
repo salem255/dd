@@ -16,38 +16,29 @@ const searchInput = document.getElementById("search");
 
 let allFiles = [];
 
- function driveToDirect(url) {};
+function driveToDirect(url){
 
-  
-if (!url) return "#";
+  if (!url) return "#";
 
-try {
+  try {
 
-const parts = url.split("/d/");
+    const parts = url.split("/d/");
 
+    if (parts.length > 1) {
 
+      const fileId = parts[1].split("/")[0];
 
-if (parts.length > 1) {
+      return `https://drive.google.com/uc?export=download&id=${fileId}`;
 
+    }
 
+  } catch (error) {
 
-  const fileId = parts[1].split("/")[0];
+    console.log(error);
 
+  }
 
-
-  return `https://drive.google.com/uc?export=download&id=${fileId}`;
-
-
-
-}
-
-} catch (error) {
-
-console.log(error);
-
-}
-
-return url;
+  return url;
 
 }
 
