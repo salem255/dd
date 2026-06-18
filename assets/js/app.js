@@ -1,8 +1,8 @@
 import { db } from "./firebase.js";
 
 import {
-collection,
-getDocs
+  collection,
+  getDocs
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
 const filesContainer = document.getElementById("filesContainer");
@@ -10,132 +10,138 @@ const searchInput = document.getElementById("search");
 
 let allFiles = [];
 
-function driveToDirect(url){
+function driveToDirect(url) {
 
-if(!url) return "#";
+  if (!url) return "#";
 
-const match = url.match(//d/(.*?)//);
+  try {
 
-if(match){
-return `https://drive.google.com/uc?export=download&id=${match[1]}`;
-}
+    const parts = url.split("/d/");
 
-return url;
-}
+    if (parts.length > 1) {
 
-function renderFiles(files){
+      const fileId = parts[1].split("/")[0];
 
-filesContainer.innerHTML = "";
+      return `https://drive.google.com/uc?export=download&id=${fileId}`;
 
-if(files.length === 0){
+    }
 
-```
-filesContainer.innerHTML = `
-  <div style="padding:20px;text-align:center;width:100%;">
-    لا توجد ملفات
-  </div>
-`;
+  } catch (error) {
 
-return;
-```
+    console.log(error);
+
+  }
+
+  return url;
 
 }
 
-files.forEach(file=>{
+function renderFiles(files) {
 
-```
-filesContainer.innerHTML += `
+  filesContainer.innerHTML = "";
 
-<div class="card">
+  if (files.length === 0) {
 
-  <img src="${file.image || 'https://via.placeholder.com/400x200'}">
+    filesContainer.innerHTML = `
+      <div style="padding:20px;text-align:center;width:100%;">
+        لا توجد ملفات
+      </div>
+    `;
 
-  <div class="card-body">
+    return;
 
-    <h3>${file.title || ''}</h3>
+  }
 
-    <p><strong>القسم:</strong> ${file.category || ''}</p>
+  files.forEach(file => {
 
-    <p><strong>الإصدار:</strong> ${file.version || ''}</p>
+    filesContainer.innerHTML += `
 
-    <p><strong>الحجم:</strong> ${file.size || ''}</p>
+      <div class="card">
 
-    <p>${file.description || ''}</p>
+        <img src="${file.image || 'https://via.placeholder.com/400x200'}">
 
-    <a
-      class="download-btn"
-      href="${driveToDirect(file.download)}"
-      target="_blank">
+        <div class="card-body">
 
-      تحميل الملف
+          <h3>${file.title || ''}</h3>
 
-    </a>
+          <p><strong>القسم:</strong> ${file.category || ''}</p>
 
-  </div>
+          <p><strong>الإصدار:</strong> ${file.version || ''}</p>
 
-</div>
+          <p><strong>الحجم:</strong> ${file.size || ''}</p>
 
-`;
-```
+          <p>${file.description || ''}</p>
 
-});
+          <a
+            class="download-btn"
+            href="${driveToDirect(file.download)}"
+            target="_blank">
 
-}
+            تحميل الملف
 
-async function loadFiles(){
+          </a>
 
-try{
+        </div>
 
-```
-const querySnapshot =
-  await getDocs(collection(db,"files"));
+      </div>
 
-allFiles = [];
+    `;
 
-querySnapshot.forEach((doc)=>{
-
-  allFiles.push({
-    id: doc.id,
-    ...doc.data()
   });
 
-});
-
-renderFiles(allFiles);
-```
-
-}
-catch(error){
-
-```
-console.error(error);
-
-filesContainer.innerHTML = `
-  <div style="padding:20px;color:red">
-    خطأ في تحميل الملفات
-  </div>
-`;
-```
-
 }
 
+async function loadFiles() {
+
+  try {
+
+    const querySnapshot =
+      await getDocs(collection(db, "files"));
+
+    allFiles = [];
+
+    querySnapshot.forEach((doc) => {
+
+      allFiles.push({
+        id: doc.id,
+        ...doc.data()
+      });
+
+    });
+
+    console.log("Files:", allFiles);
+
+    renderFiles(allFiles);
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+    filesContainer.innerHTML = `
+      <div style="padding:20px;color:red">
+        خطأ في تحميل الملفات
+      </div>
+    `;
+
+  }
+
 }
 
-searchInput?.addEventListener("input",()=>{
+searchInput?.addEventListener("input", () => {
 
-const value = searchInput.value.toLowerCase();
+  const value = searchInput.value.toLowerCase();
 
-const filtered = allFiles.filter(file =>
+  const filtered = allFiles.filter(file =>
 
-```
-(file.title || "")
-.toLowerCase()
-.includes(value)
-```
+    (file.title || "")
+      .toLowerCase()
+      .includes(value)
 
-);
+  );
 
-renderFiles(filtered);
+  renderFiles(filtered);
 
 });
 
