@@ -19,25 +19,7 @@ window.downloadFile = async function(id,url){
   
 
 };
-  try{
-
-    await updateDoc(
-      doc(db,"files",id),
-      {
-        downloads: increment(1)
-      }
-    );
-
-  }catch(error){
-
-    console.error(error);
-
-  }
-
-  window.open(
-    driveToDirect(url),
-    "_blank"
-  ); 
+  
 if (!url) return "#";
 
 try {
