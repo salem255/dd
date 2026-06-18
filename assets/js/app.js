@@ -16,7 +16,7 @@ const searchInput = document.getElementById("search");
 
 let allFiles = [];
 
-} function driveToDirect(url) {};
+ function driveToDirect(url) {};
 window.downloadFile = async function(id,url){
 
   try{
