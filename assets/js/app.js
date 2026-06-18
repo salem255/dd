@@ -42,7 +42,7 @@ window.downloadFile = async function(id,url){
 };
   
 
-
+};
   
 if (!url) return "#";
 
